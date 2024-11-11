@@ -24,5 +24,26 @@ namespace MusicApplication
         {
             InitializeComponent();
         }
+        private void OnPreviousClick(object sender, RoutedEventArgs e) { }
+        private void OnPlayPauseClick(object sender, RoutedEventArgs e) { }
+        private void OnNextClick(object sender, RoutedEventArgs e) { }
+
+        private void gif_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            gif.Position = new TimeSpan(0, 0, 1);
+            gif.Play();
+        }
+        private void gif_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            if (gif.Stretch != Stretch.Uniform)
+            {
+                gif.Stretch = Stretch.Uniform;
+            }
+            else
+            {
+                gif.Stretch = Stretch.Uniform;
+            }
+        }
+
     }
 }
