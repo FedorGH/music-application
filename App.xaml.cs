@@ -13,5 +13,6 @@ namespace MusicApplication
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

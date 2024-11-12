@@ -5,35 +5,100 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicApplication"
         mc:Ignorable="d"
-        Title="MusicApp" Height="450" Width="800" MinWidth="800" MinHeight="700">
-    <Grid Background="#FF000200">
-        <!-- Верхняя панель с названием приложения и иконкой пользователя -->
+        Title="MusicApp" Height="450" Width="800" MinWidth="800" MinHeight="700" WindowStyle="None" >
 
-        <!-- Gif анимация -->
+    <Border Background="Black" MouseDown="Border_MouseDown">
+        <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="167*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Пункт управления программой -->
+            <Grid Background="White" VerticalAlignment="Top" Height="30" Margin="3,4,-3,0" Grid.ColumnSpan="2">
+                <StackPanel Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Background="Transparent" BorderBrush="Transparent" PreviewMouseDown="Button_FoldForm">
+                        <Ellipse Fill="#2acb42" Width="15" Height="15"/>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Margin="8 0" PreviewMouseDown="Button_MaxForm">
+                        <Ellipse Fill="#ffbf2f" Width="15" Height="15"/>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" PreviewMouseDown="Button_CloseForm">
+                        <Ellipse Fill="#ff6258" Width="15" Height="15"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
 
-        <!-- Прогресс трека -->
-        <Grid Background="#FF413535" Height="128" VerticalAlignment="Bottom" Margin="203,0,0,0">
-            <Slider Minimum="0" Maximum="100" Value="40" VerticalAlignment="Top" Margin="133,72,164,0" Background="#404040" Foreground="#FF5A5F" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="223,32,0,0">
-                <Button
-        Width="40" FontSize="24" Foreground="White" Content="⏮" Click="OnPreviousClick" BorderBrush="Transparent" Background="Transparent"/>
-                <Button
-        Width="40" FontSize="24" Foreground="White" Content="⏯" Click="OnPlayPauseClick" BorderBrush="Transparent" Background="Transparent"/>
-                <Button Content="⏭" FontSize="24" Background="Transparent" Foreground="White" BorderBrush="Transparent" Width="40" Click="OnNextClick"/>
-            </StackPanel>
-        </Grid>
-        <Grid Margin="0,0,597,0" Background="#FF343434">
-            <StackPanel VerticalAlignment="Top" Margin="28,302,10,0">
-                <TextBlock Text="Название трека" Foreground="White" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBlock Text="Исполнитель" Foreground="#AAAAAA" FontSize="14" HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Grid>
-        <Grid Background="Black" Margin="203,0,0,128" RenderTransformOrigin="0.5,0.5">
-            <MediaElement x:Name="gif" 
-                      MediaEnded="gif_MediaEnded" 
-                      UnloadedBehavior="Manual" 
-                      Source="necessary-disorder tutorials.gif" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Width="350" Height="350" VerticalAlignment="Center" />
-        </Grid>
 
-    </Grid>
+            <!-- Строка взаимодействия -->
+            <Grid Background="#FF9A2727" Height="128" VerticalAlignment="Bottom" Margin="203,0,0,0" Grid.ColumnSpan="2">
+
+                <!-- Прогресс трека -->
+
+                <!-- Кнопки взаимодействия -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0">
+                    <Button
+                Width="40" 
+                FontSize="24" 
+                Foreground="White" 
+                Content="💸" 
+                Click="OnPreviousClick" 
+                BorderBrush="Transparent" 
+                Background="Transparent" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"/>
+                    <Button
+                Width="40" 
+                FontSize="24" 
+                Foreground="White" 
+                Content="▷" 
+                Click="OnPlayPauseClick" 
+                BorderBrush="Transparent"
+                Background="Transparent"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"/>
+                    <Button 
+                Content="💵" 
+                FontSize="24" 
+                Background="Transparent" 
+                Foreground="White" 
+                BorderBrush="Transparent" 
+                Width="40" 
+                Click="OnNextClick" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Текст интерфейса -->
+
+            <!-- Gif-анимация -->
+            <Grid Background="#FF000200" Margin="203,58,0,128" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+                <MediaElement 
+                    x:Name="gif"    
+                    MediaEnded="gif_MediaEnded"                   
+                    UnloadedBehavior="Manual"                  
+                    Source="necessary-disorder tutorials.gif"            
+                    RenderTransformOrigin="0.5,0.5" Height="436" 
+                    VerticalAlignment="Top" HorizontalAlignment="Center" Width="446" Margin="0,25,0,0"/>
+            </Grid>
+
+            <Grid Background="#FF374346" HorizontalAlignment="Left" Width="203" Margin="0,58,0,0">
+
+                <StackPanel VerticalAlignment="Top" Margin="28,302,10,0">
+                    <TextBlock
+                        Text="Название трека"
+                        Foreground="White"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Center"/>
+                    <TextBlock
+                        Text="Исполнитель"
+                        Foreground="#AAAAAA"
+                        FontSize="14"
+                        HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button Content="Button" HorizontalAlignment="Left" Margin="102,218,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>
