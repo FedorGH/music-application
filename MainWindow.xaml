@@ -15,7 +15,7 @@
         GlassFrameThickness="1">
         </WindowChrome>
     </WindowChrome.WindowChrome>-->
-    
+
     <Window.Resources>
         <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
             <Setter Property="SnapsToDevicePixels" Value="true" />
@@ -37,7 +37,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
-                        <Border SnapsToDevicePixels="True" Background="Green"  BorderThickness="1" BorderBrush="YellowGreen" Height="3"/>
+                        <Border SnapsToDevicePixels="True" Background="white"  BorderThickness="1" BorderBrush="gray" Height="3"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -50,10 +50,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Thumb">
                         <!--Add name to ellipse to use in  controltemplate triggers-->
-                        <Ellipse x:Name="Ellipse" Height="10" Width="10" Fill="Green"></Ellipse>
+                        <Ellipse x:Name="Ellipse" Height="10" Width="10" Fill="White"></Ellipse>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="Ellipse" Property="Fill" Value="Yellow"></Setter>
+                                <Setter TargetName="Ellipse" Property="Fill" Value="gray"></Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -132,27 +132,31 @@
                 <!-- Кнопки взаимодействия -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0">
                     <Button
-                Width="40" 
-                FontSize="24" 
-                Foreground="White" 
-                Content="💸" 
-                Click="OnPreviousClick" 
-                BorderBrush="Transparent" 
-                Background="Transparent" 
-                VerticalAlignment="Center" 
-                HorizontalAlignment="Center"/>
+                Width="40"
+                FontSize="24"
+                Foreground="White"
+                Click="OnPreviousClick"
+                BorderBrush="Transparent"
+                Background="Transparent"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Cursor="Hand">
+                        <Icon:PackIconMaterial Kind="Rewind" Visibility="Visible"/>
+                    </Button>
+
                     <Button
                 Width="40" 
                 FontSize="24" 
                 Foreground="White" 
-                Content="▷" 
                 Click="OnPlayPauseClick" 
                 BorderBrush="Transparent"
                 Background="Transparent"
                 VerticalAlignment="Center" 
-                HorizontalAlignment="Center"/>
+                HorizontalAlignment="Center" Cursor="Hand">
+                        <Icon:PackIconMaterial Kind="Play" Visibility="Visible" Foreground="White"/>
+                    </Button>
+
                     <Button 
-                Content="💵" 
                 FontSize="24" 
                 Background="Transparent" 
                 Foreground="White" 
@@ -160,9 +164,10 @@
                 Width="40" 
                 Click="OnNextClick" 
                 VerticalAlignment="Center" 
-                HorizontalAlignment="Center"/>
-                    
-                    <Slider Style="{StaticResource Horizontal_Slider}" VerticalAlignment="Center"  Value="500" Width="300" Margin="50,0,50,0" IsMoveToPointEnabled="True" Cursor="Hand"/>
+                HorizontalAlignment="Center" Cursor="Hand">
+                        <Icon:PackIconMaterial Kind="FastForward" Visibility="Visible" Foreground="White"/>
+                    </Button>
+
 
                 </StackPanel>
             </Border>
@@ -199,7 +204,6 @@
 
             <Border Background="#FF141414" CornerRadius="20 20 20 20" BorderThickness="4" BorderBrush="#FF232323" Margin="10 10 10 10" Grid.RowSpan="2">
                 <StackPanel Margin="0 150 0 0">
-
                     <Button Style="{StaticResource menuButton}" Background="Black" Cursor="Hand">
                         <Grid>
                             <TextBlock Text="Главная" Style="{StaticResource menuTitle}">
@@ -244,7 +248,7 @@
 
                     <Button Style="{StaticResource menuButton}" Background="Black" Cursor="Hand">
                         <Grid>
-                            
+
                             <TextBlock Text="Поиск" Style="{StaticResource menuTitle}">
 
                                 <TextBlock.Foreground>
@@ -282,7 +286,7 @@
                                 </TextBlock.Triggers>
 
                             </TextBlock>
-                            
+
                             <Icon:PackIconMaterial Kind="TextSearch" Style="{StaticResource menuButtonIcon}" Visibility="Visible"/>
                         </Grid>
                     </Button>
@@ -324,13 +328,21 @@
                                     </EventTrigger>
                                 </TextBlock.Triggers>
                             </TextBlock>
-                            
+
                             <Icon:PackIconMaterial Kind="Music" Style="{StaticResource menuButtonIcon}" Visibility="Visible"/>
                         </Grid>
                     </Button>
 
                 </StackPanel>
             </Border>
+            <Slider Style="{StaticResource Horizontal_Slider}"  Value="500" Margin="0,65,0,44" IsMoveToPointEnabled="True" Cursor="Hand" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Width="300">
+                <Slider.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Slider.Background>
+            </Slider>
         </Grid>
     </Border>
 </Window>
