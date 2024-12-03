@@ -17,7 +17,10 @@
     </WindowChrome.WindowChrome>-->
 
     <Window.Resources>
-        <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
+
+        <!-- Slider -->
+        <!--#region -->
+        <Style x:Key="StatusBar" TargetType="RepeatButton">
             <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
             <Setter Property="IsTabStop" Value="false" />
@@ -31,7 +34,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="SliderRepeatButton1" TargetType="RepeatButton">
+        <Style x:Key="StatusBarDone" TargetType="RepeatButton">
             <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
             <Setter Property="Template">
@@ -70,13 +73,13 @@
                 </Grid.RowDefinitions>
                 <Track Grid.Row="1" x:Name="PART_Track"   >
                     <Track.DecreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource SliderRepeatButton1}"  Command="Slider.DecreaseLarge" />
+                        <RepeatButton Style="{StaticResource StatusBarDone}"  Command="Slider.DecreaseLarge" />
                     </Track.DecreaseRepeatButton>
                     <Track.Thumb>
-                        <Thumb Style="{StaticResource SliderThumb}"  />
+                        <Thumb Style="{StaticResource SliderThumb}"/>
                     </Track.Thumb>
                     <Track.IncreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" />
+                        <RepeatButton Style="{StaticResource StatusBar}" Command="Slider.IncreaseLarge" />
                     </Track.IncreaseRepeatButton>
                 </Track>
             </Grid>
@@ -94,6 +97,16 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <!--#endregion-->
+
+        <!-- Buttons -->
+        <Storyboard x:Key="GradientAnimation" RepeatBehavior="Forever" AutoReverse="True">
+            <DoubleAnimation Storyboard.TargetProperty="GradientStops[0].Offset" From="-3.0" To="-1.0" Duration="0:0:2" />
+            <DoubleAnimation Storyboard.TargetProperty="GradientStops[1].Offset" From="-1.0" To="2.0" Duration="0:0:6" />
+            <DoubleAnimation Storyboard.TargetProperty="GradientStops[2].Offset" From="2.0" To="4.0" Duration="0:0:3" />
+        </Storyboard>
+
+
     </Window.Resources>
 
     <Border Background="Black" MouseDown="Border_MouseDown">
@@ -128,48 +141,30 @@
 
             <!-- Строка взаимодействия -->
             <Border Background="#FF141414" CornerRadius="20 20 20 20" BorderThickness="4" BorderBrush="#FF232323" Grid.Column="2" Grid.Row="2" Margin="0 0 10 10">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
+                        <Button Style="{StaticResource sliderButton}" Margin="0 0 10 0">
+                            <Icon:PackIconMaterial Kind="Rewind" Style="{StaticResource sliderButtonIcon}"/>
+                        </Button>
 
-                <!-- Кнопки взаимодействия -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0">
-                    <Button
-                Width="40"
-                FontSize="24"
-                Foreground="White"
-                Click="OnPreviousClick"
-                BorderBrush="Transparent"
-                Background="Transparent"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Cursor="Hand">
-                        <Icon:PackIconMaterial Kind="Rewind" Visibility="Visible"/>
-                    </Button>
+                        <Button Style="{StaticResource sliderButton}" Margin="10 0 10 0">
+                            <Icon:PackIconMaterial Kind="Play" Style="{StaticResource sliderButtonIcon}"/>
+                        </Button>
 
-                    <Button
-                Width="40" 
-                FontSize="24" 
-                Foreground="White" 
-                Click="OnPlayPauseClick" 
-                BorderBrush="Transparent"
-                Background="Transparent"
-                VerticalAlignment="Center" 
-                HorizontalAlignment="Center" Cursor="Hand">
-                        <Icon:PackIconMaterial Kind="Play" Visibility="Visible" Foreground="White"/>
-                    </Button>
+                        <Button Style="{StaticResource sliderButton}" Margin="10 0 0 0">
+                            <Icon:PackIconMaterial Kind="FastForward"  Style="{StaticResource sliderButtonIcon}"/>
+                        </Button>
+                    </StackPanel>
 
-                    <Button 
-                FontSize="24" 
-                Background="Transparent" 
-                Foreground="White" 
-                BorderBrush="Transparent" 
-                Width="40" 
-                Click="OnNextClick" 
-                VerticalAlignment="Center" 
-                HorizontalAlignment="Center" Cursor="Hand">
-                        <Icon:PackIconMaterial Kind="FastForward" Visibility="Visible" Foreground="White"/>
-                    </Button>
-
-
-                </StackPanel>
+                    <Slider Style="{StaticResource Horizontal_Slider}"  Value="500" Margin="0,56,0,35" IsMoveToPointEnabled="True" Cursor="Hand" HorizontalAlignment="Center" Width="300">
+                        <Slider.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black"/>
+                                <GradientStop Color="White" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Slider.Background>
+                    </Slider>
+                </Grid>
             </Border>
 
             <!-- Gif-анимация -->
@@ -179,7 +174,7 @@
                         x:Name="gif"
                         MediaEnded="gif_MediaEnded"
                         UnloadedBehavior="Manual"
-                        Source="загруженное (2).gif"
+                        Source="Background.gif"
                         RenderTransformOrigin="0.5,0.5" Height="436"
                         VerticalAlignment="Top"
                         Margin="0,40,0,0"
@@ -202,147 +197,133 @@
                 </Grid>
             </Border>
 
+
+            <!-- Логотип и меню -->
             <Border Background="#FF141414" CornerRadius="20 20 20 20" BorderThickness="4" BorderBrush="#FF232323" Margin="10 10 10 10" Grid.RowSpan="2">
-                <StackPanel Margin="0 150 0 0">
-                    <Button Style="{StaticResource menuButton}" Background="Black" Cursor="Hand">
-                        <Grid>
-                            <TextBlock Text="Главная" Style="{StaticResource menuTitle}">
-                                <TextBlock.Foreground>
-                                    <RadialGradientBrush x:Name="AnimatedBrush" RadiusX="0.5" Center="0.5,0.5" SpreadMethod="Pad">
-                                        <GradientStop Color="#FF284FC8" Offset="0.0"/>
-                                        <GradientStop Color="#FFC315BB" Offset="0.5"/>
-                                        <GradientStop Color="#FF15C6CA" Offset="1.0"/>
-                                    </RadialGradientBrush>
-                                </TextBlock.Foreground>
+                <Grid>
 
-                                <TextBlock.Triggers>
-                                    <EventTrigger RoutedEvent="Loaded">
-                                        <BeginStoryboard>
-                                            <Storyboard RepeatBehavior="Forever" AutoReverse="True" >
-                                                <!-- Анимация первого градиентного стопа -->
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="AnimatedBrush"
-                                                    Storyboard.TargetProperty="GradientStops[0].Offset" 
-                                                    From="-1.0" To="-0.5" Duration="0:0:4" />
+                    <Grid Margin="0,0,0,541">
+                        <TextBlock
+                            Margin="0,17,27,0"
+                            Text="MUSIC"
+                            FontSize="45"
+                            FontFamily="Bauhaus 93"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+                            <TextBlock.Foreground>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <LinearGradientBrush.RelativeTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </LinearGradientBrush.RelativeTransform>
+                                    <GradientStop Color="#FF375EDA" Offset="1"/>
+                                    <GradientStop Color="#FF00A19B" Offset="0.3"/>
+                                    <GradientStop Color="White" Offset="0"/>
+                                </LinearGradientBrush>
+                            </TextBlock.Foreground>
+                        </TextBlock>
 
-                                                <!-- Анимация второго градиентного стопа (белый цвет) -->
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="AnimatedBrush"
-                                                    Storyboard.TargetProperty="GradientStops[1].Offset"
-                                                    From="-0.5" To="1.0" Duration="0:0:8" />
+                        <Icon:PackIconMaterial 
+                            Kind="MusicBox"
+                            Visibility="Visible"
+                            Foreground="White" 
+                            Margin="25,30,0,0"
+                            Height="35"
+                            Width="35"
+                            HorizontalAlignment="Left" />
+                    </Grid>
 
-                                                <!-- Анимация третьего градиентного стопа -->
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="AnimatedBrush"
-                                                    Storyboard.TargetProperty="GradientStops[2].Offset"
-                                                    From="1.0" To="1.5" Duration="0:0:4" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </TextBlock.Triggers>
+                    <StackPanel Margin="0,120,0,0">
 
-                            </TextBlock>
-                            <Icon:PackIconMaterial Kind="Home" Style="{StaticResource menuButtonIcon}" Visibility="Visible"/>
-                        </Grid>
-                    </Button>
 
-                    <Button Style="{StaticResource menuButton}" Background="Black" Cursor="Hand">
-                        <Grid>
+                        <Button Style="{StaticResource menuButton}">
+                            <Grid>
+                                <TextBlock x:Name="TargetText" Text="Главная" Style="{StaticResource menuTitle}" >
+                                    <TextBlock.Foreground>
+                                        <RadialGradientBrush x:Name="AnimatedBrush0" SpreadMethod="Pad" RadiusX="1" Center="0,0" RadiusY="1" GradientOrigin="0.5,0.5">
+                                            <GradientStop Color="White" Offset="0.0"/>
+                                            <GradientStop Color="#00A19B " Offset="0.5"/>
+                                            <GradientStop Color="#FF375EDA" Offset="1"/>
+                                        </RadialGradientBrush>
+                                    </TextBlock.Foreground>
 
-                            <TextBlock Text="Поиск" Style="{StaticResource menuTitle}">
+                                    <TextBlock.Triggers>
+                                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard Storyboard.TargetName="AnimatedBrush0">
+                                                    <StaticResource ResourceKey="GradientAnimation"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </TextBlock.Triggers>
+                                </TextBlock>
+                                <Icon:PackIconMaterial Kind="Home" Style="{StaticResource menuButtonIcon}" Visibility="Visible"/>
+                            </Grid>
+                        </Button>
 
-                                <TextBlock.Foreground>
-                                    <RadialGradientBrush x:Name="AnimatedBrush1" RadiusX="0.5" Center="0.5,0.5" SpreadMethod="Pad">
-                                        <GradientStop Color="#FF15C6CA" Offset="0.0"/>
-                                        <GradientStop Color="#FFC315BB" Offset="0.5"/>
-                                        <GradientStop Color="#FF284FC8" Offset="1.0"/>
-                                    </RadialGradientBrush>
-                                </TextBlock.Foreground>
 
-                                <TextBlock.Triggers>
-                                    <EventTrigger RoutedEvent="Loaded">
-                                        <BeginStoryboard>
-                                            <Storyboard RepeatBehavior="Forever" AutoReverse="True" >
-                                                <!-- Анимация первого градиентного стопа -->
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="AnimatedBrush1"
-                                                    Storyboard.TargetProperty="GradientStops[0].Offset" 
-                                                    From="-1.0" To="-0.5" Duration="0:0:4" />
 
-                                                <!-- Анимация второго градиентного стопа (белый цвет) -->
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="AnimatedBrush1"
-                                                    Storyboard.TargetProperty="GradientStops[1].Offset"
-                                                    From="-0.5" To="1.0" Duration="0:0:8" />
 
-                                                <!-- Анимация третьего градиентного стопа -->
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="AnimatedBrush1"
-                                                    Storyboard.TargetProperty="GradientStops[2].Offset"
-                                                    From="1.0" To="1.5" Duration="0:0:4" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </TextBlock.Triggers>
+                        <Button Style="{StaticResource menuButton}">
+                            <Grid>
 
-                            </TextBlock>
+                                <TextBlock Text="Поиск" Style="{StaticResource menuTitle}">
 
-                            <Icon:PackIconMaterial Kind="TextSearch" Style="{StaticResource menuButtonIcon}" Visibility="Visible"/>
-                        </Grid>
-                    </Button>
+                                    <TextBlock.Foreground>
+                                        <RadialGradientBrush x:Name="AnimatedBrush1" RadiusX="1" Center="0,0" RadiusY="1" SpreadMethod="Pad">
+                                            <GradientStop Color="#FF375EDA" Offset="0.0"/>
+                                            <GradientStop Color="#00A19B" Offset="0.5"/>
+                                            <GradientStop Color="White" Offset="1.0"/>
+                                        </RadialGradientBrush>
+                                    </TextBlock.Foreground>
 
-                    <Button Style="{StaticResource menuButton}" Background="Black" Cursor="Hand">
-                        <Grid>
-                            <TextBlock Text="Плейстист" Style="{StaticResource menuTitle}">
-                                <TextBlock.Foreground>
-                                    <RadialGradientBrush x:Name="AnimatedBrush2" RadiusX="0.5" Center="0.5,0.5" SpreadMethod="Pad">
-                                        <GradientStop Color="#FF1847DC" Offset="0.0"/>
-                                        <GradientStop Color="#FF16999C" Offset="0.5"/>
-                                        <GradientStop Color="#FFC315BB" Offset="1.0"/>
-                                    </RadialGradientBrush>
-                                </TextBlock.Foreground>
+                                    <TextBlock.Triggers>
+                                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard Storyboard.TargetName="AnimatedBrush1">
+                                                    <StaticResource ResourceKey="GradientAnimation"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </TextBlock.Triggers>
 
-                                <TextBlock.Triggers>
-                                    <EventTrigger RoutedEvent="Loaded">
-                                        <BeginStoryboard>
-                                            <Storyboard RepeatBehavior="Forever" AutoReverse="True" >
-                                                <!-- Анимация первого градиентного стопа -->
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="AnimatedBrush2"
-                                                    Storyboard.TargetProperty="GradientStops[0].Offset" 
-                                                    From="-1.0" To="-0.5" Duration="0:0:4" />
+                                </TextBlock>
 
-                                                <!-- Анимация второго градиентного стопа (белый цвет) -->
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="AnimatedBrush2"
-                                                    Storyboard.TargetProperty="GradientStops[1].Offset"
-                                                    From="-0.5" To="1.0" Duration="0:0:8" />
+                                <Icon:PackIconMaterial Kind="TextSearch" Style="{StaticResource menuButtonIcon}" Visibility="Visible"/>
+                            </Grid>
+                        </Button>
 
-                                                <!-- Анимация третьего градиентного стопа -->
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="AnimatedBrush2"
-                                                    Storyboard.TargetProperty="GradientStops[2].Offset"
-                                                    From="1.0" To="1.5" Duration="0:0:4" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </TextBlock.Triggers>
-                            </TextBlock>
+                        <Button Style="{StaticResource menuButton}">
+                            <Grid>
+                                <TextBlock x:Name="Target" Text="Плейстист" Style="{StaticResource menuTitle}">
+                                    <TextBlock.Foreground>
+                                        <RadialGradientBrush x:Name="AnimatedBrush2" RadiusX="1" Center="0,0" RadiusY="1" SpreadMethod="Pad">
+                                            <GradientStop Color="#FF375EDA" Offset="0.0"/>
+                                            <GradientStop Color="#00A19B" Offset="0.5"/>
+                                            <GradientStop Color="White" Offset="1.0"/>
+                                        </RadialGradientBrush>
+                                    </TextBlock.Foreground>
 
-                            <Icon:PackIconMaterial Kind="Music" Style="{StaticResource menuButtonIcon}" Visibility="Visible"/>
-                        </Grid>
-                    </Button>
+                                    <TextBlock.Triggers>
+                                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard Storyboard.TargetName="AnimatedBrush2">
+                                                    <StaticResource ResourceKey="GradientAnimation"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </TextBlock.Triggers>
+                                </TextBlock>
 
-                </StackPanel>
+                                <Icon:PackIconMaterial Kind="Music" Style="{StaticResource menuButtonIcon}" Visibility="Visible"/>
+                            </Grid>
+                        </Button>
+
+                    </StackPanel>
+                </Grid>
             </Border>
-            <Slider Style="{StaticResource Horizontal_Slider}"  Value="500" Margin="0,65,0,44" IsMoveToPointEnabled="True" Cursor="Hand" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Width="300">
-                <Slider.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black"/>
-                        <GradientStop Color="White" Offset="1"/>
-                    </LinearGradientBrush>
-                </Slider.Background>
-            </Slider>
         </Grid>
     </Border>
 </Window>

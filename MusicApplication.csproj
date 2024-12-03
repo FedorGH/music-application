@@ -139,13 +139,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="voice wave.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pause-button.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="загруженное %282%29.gif">
+    <EmbeddedResource Include="Background.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
