@@ -30,7 +30,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="25">
+                        <Border CornerRadius="25">
                             <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="35 0 0 0"/>
                         </Border>
                     </ControlTemplate>
@@ -38,6 +38,8 @@
             </Setter>
         </Style>
 
+        <!--Background="{TemplateBinding Background}"-->
+        
         <Style x:Key="sliderButton" TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush"  Value="Transparent"/>
@@ -69,6 +71,5 @@
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="Visibility" Value="{Binding Path=Tag, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"/>
         </Style>
-
     </Application.Resources>
 </Application>
