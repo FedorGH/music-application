@@ -5,8 +5,8 @@
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicApplication"
-        xmlns:MaterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MusicApplication.MainWindow"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        x:Class="MusicApplication.MainWindow"
         mc:Ignorable="d"
         Title="MusicApp" Height="450" Width="800" MinWidth="800" MinHeight="700">
     <!--<WindowChrome.WindowChrome>
@@ -52,7 +52,7 @@
             <Border Background="#FF141414" CornerRadius="20 20 20 20" BorderThickness="4" BorderBrush="#FF232323" Grid.Row="2" Grid.ColumnSpan="2" Margin="10 5 10 10">
                 <Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,28,0,0">
-                        <Button Style="{StaticResource sliderButton}" Margin="0 0 10 0">
+                        <Button x:Name="PreviousButton" Style="{StaticResource sliderButton}" Margin="0 0 10 0" Click="PreviousButton_Click">
                             <Icon:PackIconMaterial Kind="Rewind" Style="{StaticResource sliderButtonIcon}"/>
                         </Button>
 
@@ -60,17 +60,17 @@
                             <Icon:PackIconMaterial x:Name="PlayPauseIcon" Kind="Play" Style="{StaticResource sliderButtonIcon}"/>
                         </Button>
 
-                        <Button Style="{StaticResource sliderButton}" Margin="10 0 0 0">
+                        <Button x:Name="NextButton" Style="{StaticResource sliderButton}" Margin="10 0 0 0" Click="NextButton_Click">
                             <Icon:PackIconMaterial Kind="FastForward"  Style="{StaticResource sliderButtonIcon}"/>
                         </Button>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,10" HorizontalAlignment="Center">
+                    <Grid Margin="186,10,186,10" MaxWidth="600">
                         <TextBlock x:Name="Progress"
                            Text="00:00"
                            Foreground="white"
                            HorizontalAlignment="Left" 
-                           Width="50" 
+                           Width="50"
                            VerticalAlignment="Bottom"
                            TextAlignment="Center"
                            Height="20" />
@@ -83,9 +83,8 @@
                                 Cursor="Hand" 
                                 PreviewMouseDown="ProgressSlider_PreviewMouseDown"
                                 PreviewMouseUp="ProgressSlider_PreviewMouseUp" 
-                                Height="20" 
-                                Width="300"
-                                VerticalAlignment="Bottom">
+                                Height="20"
+                                VerticalAlignment="Top" Margin="50,57,50,0">
                             <Slider.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="Black"/>
@@ -95,13 +94,14 @@
                         </Slider>
 
                         <TextBlock x:Name="Remains"
-                               Text="00:00"
-                               Foreground="white" 
-                               Width="50" 
-                               VerticalAlignment="Bottom"
-                               TextAlignment="Center"
-                               Height="20" />
-                    </StackPanel>
+                                   Text="00:00"
+                                   Foreground="white" 
+                                   Width="50" 
+                                   HorizontalAlignment="Right" 
+                                   VerticalAlignment="Bottom"
+                                   TextAlignment="Center"
+                                   Height="20" />
+                    </Grid>
 
                     <Slider x:Name="VolumeSlider"
                             Style="{StaticResource Horizontal_Slider}"
@@ -117,8 +117,11 @@
             <!-- Gif-анимация -->
             <Border Grid.Column="2" CornerRadius="20 20 20 20" Margin="0 10 10 10" Background="Black">
 
+
+
+
                 <Grid>
-                    <Grid x:Name="MainGrid" d:IsHidden="True">
+                    <Grid x:Name="MainGrid">
                         <MediaElement 
                             x:Name="gif" 
                             MediaEnded="gif_MediaEnded"

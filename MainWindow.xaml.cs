@@ -1,6 +1,5 @@
 ﻿using NAudio.Wave;
 using System;
-using MaterialDesignThemes.Wpf;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +12,7 @@ using MahApps.Metro.IconPacks;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace MusicApplication
 {
@@ -95,12 +95,12 @@ namespace MusicApplication
 
 
 
-
         /// <summary>
         /// Реализация функционала проигрывателя
         /// </summary>
 
         // Добавление файлов в listbox
+
         private void AddFilesButton_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
@@ -111,7 +111,6 @@ namespace MusicApplication
 
             if (openFileDialog.ShowDialog() == true)
             {
-                mediaPlayer.Source = new Uri(openFileDialog.FileName);
                 foreach (var file in openFileDialog.FileNames)
                 {
                     fileName = System.IO.Path.GetFileNameWithoutExtension(file);
@@ -119,12 +118,55 @@ namespace MusicApplication
                     if (fileName.Length > 40)
                         fileName = fileName.Substring(0, 40) + "...";
 
-                    Playlist.Items.Add(fileName);
+                    var listBoxItem = new ListBoxItem
+                    {
+                        Content = fileName,
+                        Tag = file // Полный путь сохраняется в Tag
+                    };
 
-                    FileNameTextBlock.Text = fileName;
+                    Playlist.Items.Add(listBoxItem);
+
+                    // Если список был пуст, выбираем и начинаем воспроизведение первого трека
+                    if (Playlist.Items.Count == 1)
+                    {
+                        Playlist.SelectedIndex = 0;
+                        PlaySelectedTrack();
+                    }
                 }
             }
         }
+
+        private void PlaySelectedTrack()
+        {
+            if (Playlist.SelectedItem is ListBoxItem selectedItem && selectedItem.Tag is string filePath)
+            {
+                mediaPlayer.Source = new Uri(filePath);
+
+                // Обновляем отображение текущего файла
+                FileNameTextBlock.Text = selectedItem.Content.ToString();
+            }
+        }
+
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Playlist.Items.Count > 0) // Убедимся, что плейлист не пуст
+            {
+                Playlist.SelectedIndex = (Playlist.SelectedIndex + 1) % Playlist.Items.Count;
+                PlaySelectedTrack();
+            }
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Playlist.Items.Count > 0) // Убедимся, что плейлист не пуст
+            {
+                Playlist.SelectedIndex = (Playlist.SelectedIndex - 1 + Playlist.Items.Count) % Playlist.Items.Count;
+                PlaySelectedTrack();
+            }
+        }
+
+
 
         // Очистка плейлиста
         private void ClearPlaylistButton_Click(object sender, RoutedEventArgs e)
@@ -137,7 +179,6 @@ namespace MusicApplication
         private void ProgressSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Progress.Text = TimeSpan.FromSeconds(ProgressSlider.Value).ToString(@"mm\:ss");
-            Remains.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
         }
 
         //Воспроизведение трека
@@ -191,6 +232,7 @@ namespace MusicApplication
                 ProgressSlider.Minimum = 0;
                 ProgressSlider.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
                 ProgressSlider.Value = mediaPlayer.Position.TotalSeconds;
+                Remains.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
             }
         }
 
