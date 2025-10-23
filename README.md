@@ -11,7 +11,7 @@
 *Современный музыкальный проигрыватель с красивым интерфейсом и плавной анимацией*
 
 ## Главное окно приложения
-<img width="1048" height="657" alt="image" src="https://github.com/user-attachments/assets/cac93205-a27b-4372-b425-19ab87ca238e" />
+<img width="998" height="607" alt="image" src="https://github.com/user-attachments/assets/cac93205-a27b-4372-b425-19ab87ca238e" />
 
 </div>
 
